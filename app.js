@@ -12,7 +12,7 @@
 'use strict';
 
 /* ── Personalization ──────────────────────────────────────── */
-const NAME = 'Monica';
+const NAME = '[Name]';
 
 /* ── Storage Keys ─────────────────────────────────────────── */
 const KEYS = {
@@ -173,9 +173,7 @@ function setMode(mode) {
   totalTime   = MODES[mode].duration;
   const isBreak = MODES[mode].isBreak;
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
-  els.timerCard.classList.toggle('break', isBreak);
-  els.ringProg.classList.toggle('break', isBreak);
-  els.modeLabel.classList.toggle('break', isBreak);
+  // no color change on break — stays pink
   els.modeLabel.textContent   = MODES[mode].label;
   els.cardSealTop.textContent = MODES[mode].seal;
   updateDisplay();
@@ -189,7 +187,7 @@ function startTimer() {
   isRunning = true;
   els.startBtn.textContent = 'Pause';
   els.ringSvg.classList.add('ticking');
-  if (MODES[currentMode].isBreak) els.ringSvg.classList.add('break-anim');
+  // color stays pink regardless of mode
   intervalId = setInterval(tick, 1000);
 }
 
@@ -197,13 +195,13 @@ function pauseTimer() {
   clearInterval(intervalId);
   isRunning = false;
   els.startBtn.textContent = 'Resume';
-  els.ringSvg.classList.remove('ticking', 'break-anim');
+  els.ringSvg.classList.remove('ticking');
 }
 
 function resetTimer() {
   clearInterval(intervalId);
   isRunning = false;
-  els.ringSvg.classList.remove('ticking', 'break-anim');
+  els.ringSvg.classList.remove('ticking');
   els.startBtn.textContent = 'Begin';
   timeLeft = totalTime = MODES[currentMode].duration;
   updateDisplay();
@@ -213,7 +211,7 @@ function resetTimer() {
 function skipSession() {
   clearInterval(intervalId);
   isRunning = false;
-  els.ringSvg.classList.remove('ticking', 'break-anim');
+  els.ringSvg.classList.remove('ticking');
   onSessionComplete();
 }
 
@@ -226,7 +224,7 @@ function tick() {
 
 /* ── Session completion ───────────────────────────────────── */
 function onSessionComplete() {
-  els.ringSvg.classList.remove('ticking', 'break-anim');
+  els.ringSvg.classList.remove('ticking');
   els.startBtn.textContent = 'Begin';
   playChime();
 

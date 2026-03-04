@@ -244,14 +244,14 @@ h1 em {
 }
 
 .mode-tab.active[data-mode="short"] {
-  background: var(--secondary-deep);
-  border-color: var(--secondary-deep);
+  background: var(--primary);
+  border-color: var(--primary);
   color: var(--white);
 }
 
 .mode-tab.active[data-mode="long"] {
-  background: var(--secondary);
-  border-color: var(--secondary);
+  background: var(--primary);
+  border-color: var(--primary);
   color: var(--white);
 }
 
@@ -278,7 +278,7 @@ h1 em {
 }
 
 .timer-card.break::before {
-  background: linear-gradient(to right, var(--secondary), var(--secondary-deep));
+  background: linear-gradient(to right, var(--primary-mid), var(--primary));
 }
 
 .card-seal-top {
@@ -322,7 +322,7 @@ h1 em {
 }
 
 .ring-prog.break {
-  stroke: var(--secondary-deep);
+  stroke: var(--primary);
 }
 
 .timer-center {
@@ -354,7 +354,7 @@ h1 em {
 }
 
 .timer-mode-label.break {
-  color: var(--secondary-deep);
+  color: var(--primary);
 }
 
 /* ── Session Dots ─────────────────────────────────────────── */
@@ -504,7 +504,7 @@ h1 em {
 }
 
 .tasks-header {
-  background: linear-gradient(to right, var(--primary-light), var(--secondary-light));
+  background: linear-gradient(to right, var(--primary-light), var(--primary-light));
   padding: 14px 20px;
   display: flex;
   align-items: center;
@@ -708,8 +708,8 @@ h1 em {
 }
 
 @keyframes pulseBreak {
-  0%, 100% { filter: drop-shadow(0 0 4px var(--secondary)); }
-  50%       { filter: drop-shadow(0 0 16px var(--secondary-deep)); }
+  0%, 100% { filter: drop-shadow(0 0 4px var(--primary-mid)); }
+  50%       { filter: drop-shadow(0 0 16px var(--primary)); }
 }
 
 .ring-svg.ticking            { animation: pulseWork  2s ease-in-out infinite; }
