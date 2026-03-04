@@ -432,7 +432,7 @@ h1 em {
   border-top: 1px solid var(--primary-light);
   padding-top: 20px;
   margin-top: 4px;
-  min-height: 72px;
+  min-height: 88px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -453,6 +453,25 @@ h1 em {
   color: var(--primary);
   margin-top: 6px;
   font-family: 'EB Garamond', serif;
+}
+
+/* Legal maxim translation — shown inline after the Latin */
+.maxim-translation {
+  display: block;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--ink-light);
+  margin-top: 5px;
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+
+/* Latin phrase — emphasized */
+.quote-text em {
+  font-style: italic;
+  color: var(--primary-deep);
+  font-size: 15px;
+  letter-spacing: 0.01em;
 }
 
 /* ── Stats Row ────────────────────────────────────────────── */
