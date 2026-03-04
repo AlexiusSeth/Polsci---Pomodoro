@@ -12,7 +12,7 @@
 'use strict';
 
 /* ── Personalization ──────────────────────────────────────── */
-const NAME = 'Monica'; // <-- REPLACE with your name for a personalized experience
+const NAME = 'Monica'; // <-- Set your name here for personalized greetings and stats
 
 /* ── Storage Keys ─────────────────────────────────────────── */
 const KEYS = {
@@ -32,7 +32,6 @@ const MODES = {
 const CIRCUMFERENCE = 2 * Math.PI * 110;
 
 /* ── Quotes ───────────────────────────────────────────────── */
-/* ── Political Science Quotes ─────────────────────────────── */
 const QUOTES = [
   { text: "The most courageous act is still to think for yourself. Aloud.",                                   author: "Coco Chanel"            },
   { text: "Power is not only what you have, but what the enemy thinks you have.",                             author: "Saul Alinsky"           },
@@ -47,45 +46,7 @@ const QUOTES = [
   { text: "The most common way people give up their power is by thinking they don't have any.",               author: "Alice Walker"           },
   { text: "One child, one teacher, one book, one pen can change the world.",                                  author: "Malala Yousafzai"       },
   { text: "If liberty means anything at all, it means the right to tell people what they do not want to hear.", author: "George Orwell"        },
-  { text: "Nearly all men can stand adversity, but if you want to test a man's character, give him power.",   author: "Abraham Lincoln"        },
   { text: "In the long run, the most unpleasant truth is a safer companion than a pleasant falsehood.",       author: "Theodore Roosevelt"     },
-];
-
-/* ── Legal Maxims ─────────────────────────────────────────────
-   Each maxim has:
-     latin       — the original Latin phrase
-     translation — plain English meaning
-     origin      — source / legal tradition
-   ─────────────────────────────────────────────────────────── */
-const MAXIMS = [
-  { latin: "Audi alteram partem",          translation: "Hear the other side.",                                          origin: "Natural Justice / Roman Law"      },
-  { latin: "Ignorantia juris non excusat", translation: "Ignorance of the law is no excuse.",                            origin: "Common Law"                       },
-  { latin: "Fiat justitia ruat caelum",    translation: "Let justice be done, though the heavens fall.",                 origin: "Roman Legal Maxim"                },
-  { latin: "Nemo judex in causa sua",      translation: "No one should be a judge in their own case.",                   origin: "Natural Justice / Roman Law"      },
-  { latin: "Actus reus non facit reum nisi mens sit rea", translation: "An act does not make a person guilty unless the mind is also guilty.", origin: "Criminal Law" },
-  { latin: "In dubio pro reo",             translation: "When in doubt, favor the accused.",                              origin: "Criminal Law / Roman Law"         },
-  { latin: "Pacta sunt servanda",          translation: "Agreements must be kept.",                                       origin: "International Law / Roman Law"    },
-  { latin: "Nemo dat quod non habet",      translation: "No one can give what they do not have.",                         origin: "Property Law / Roman Law"         },
-  { latin: "Ubi jus ibi remedium",         translation: "Where there is a right, there is a remedy.",                    origin: "Common Law"                       },
-  { latin: "Ex injuria jus non oritur",    translation: "Rights cannot arise from wrongful acts.",                        origin: "International Law"                },
-  { latin: "Dura lex sed lex",             translation: "The law is harsh, but it is the law.",                           origin: "Roman Law"                        },
-  { latin: "Salus populi suprema lex esto",translation: "The welfare of the people shall be the supreme law.",            origin: "Cicero / Roman Law"               },
-  { latin: "Nullum crimen sine lege",      translation: "No crime without a law.",                                        origin: "Criminal Law / Enlightenment"     },
-  { latin: "Habeas corpus",                translation: "You shall have the body — a protection against unlawful detention.", origin: "Common Law / Magna Carta"    },
-  { latin: "Nulla poena sine lege",        translation: "No punishment without a law.",                                   origin: "Criminal Law"                     },
-  { latin: "Equality before the law",      translation: "All persons and entities are subject to the same laws.",         origin: "Rule of Law Doctrine"             },
-  { latin: "Summum jus summa injuria",     translation: "Extreme law is extreme injustice.",                              origin: "Cicero, De Officiis"              },
-  { latin: "Iura novit curia",             translation: "The court knows the law.",                                       origin: "Civil Law Tradition"              },
-];
-
-/**
- * Build a unified pool by merging QUOTES and MAXIMS.
- * Maxims get a special `isMaxim: true` flag so the renderer
- * can display them differently (Latin + translation + origin).
- */
-const ALL_QUOTES = [
-  ...QUOTES.map(q => ({ ...q, isMaxim: false })),
-  ...MAXIMS.map(m => ({ ...m, isMaxim: true  })),
 ];
 
 const WELCOME_QUOTES = [
@@ -308,28 +269,24 @@ function updateStats() {
    QUOTES
    ══════════════════════════════════════════════════════════ */
 
+/* Show "Pacta sunt servanda" once on first load */
+function showOpeningMaxim() {
+  els.quoteText.innerHTML =
+    `<em style="font-style:italic;color:var(--primary-deep);font-size:15px;letter-spacing:0.03em;">Pacta sunt servanda</em>` +
+    `<span style="display:block;font-style:italic;font-size:13px;color:var(--ink-light);margin-top:4px;">"Agreements must be kept."</span>`;
+  els.quoteAuthor.textContent = '⚖ International Law · Roman Law';
+}
+
 function showNextQuote() {
-  if (usedQuoteIndices.length >= ALL_QUOTES.length) usedQuoteIndices = [];
+  if (usedQuoteIndices.length >= QUOTES.length) usedQuoteIndices = [];
   let idx;
-  do { idx = Math.floor(Math.random() * ALL_QUOTES.length); } while (usedQuoteIndices.includes(idx));
+  do { idx = Math.floor(Math.random() * QUOTES.length); } while (usedQuoteIndices.includes(idx));
   usedQuoteIndices.push(idx);
-
-  const q = ALL_QUOTES[idx];
-
+  const q = QUOTES[idx];
   els.quoteText.style.opacity = els.quoteAuthor.style.opacity = '0';
-
   setTimeout(() => {
-    if (q.isMaxim) {
-      // Legal maxim: Latin (italic) + translation + origin
-      els.quoteText.innerHTML =
-        `<em>${q.latin}</em>` +
-        `<span class="maxim-translation"> — "${q.translation}"</span>`;
-      els.quoteAuthor.textContent = `⚖ ${q.origin}`;
-    } else {
-      // Regular political quote
-      els.quoteText.innerHTML = `"${q.text}"`;
-      els.quoteAuthor.textContent = `— ${q.author}`;
-    }
+    els.quoteText.innerHTML     = `"${q.text}"`;
+    els.quoteAuthor.textContent = `— ${q.author}`;
     els.quoteText.style.opacity = els.quoteAuthor.style.opacity = '1';
   }, 300);
 }
@@ -437,7 +394,7 @@ function init() {
   loadState();
   initWelcome();
   renderDots();
-  showNextQuote();
+  showOpeningMaxim(); // shown once on load; rotates on first mode change
   renderTasks();
   updateDisplay();
   updateRing();
