@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[Name]'s [Title] Pomodoro</title>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <title>Personalized Pomodoro for Her</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,8 +16,8 @@
   <div class="welcome-overlay" id="welcomeOverlay">
     <div class="welcome-card">
       <div class="welcome-seal">⚜</div>
-      <h2 class="welcome-title">Welcome back,<br><em>[Name]</em></h2>
-      <p class="welcome-sub">Your study session awaits, [Title].</p>
+      <h2 class="welcome-title">Welcome back,<br><em>Monica</em></h2>
+      <p class="welcome-sub">Your study session awaits, Atty.</p>
       <p class="welcome-quote" id="welcomeQuote"></p>
       <button class="btn btn-primary welcome-btn" onclick="dismissWelcome()">Begin the Session</button>
     </div>
@@ -27,9 +27,9 @@
 
     <!-- Header -->
     <header>
-      <div class="header-seal">★ &nbsp; [Name]'s Private Study Chamber &nbsp; ★</div>
-      <h1>The <em>[Title]</em> Pomodoro</h1>
-      <p class="header-subtitle">Forged for a future [Title]</p>
+      <div class="header-seal">★ &nbsp; Monica's Private Study Chamber &nbsp; ★</div>
+      <h1><em>Monica's</em> Pomodoro</h1>
+      <p class="header-subtitle">Forged for your future</p>
       <div class="divider"><span class="divider-icon">⚜</span></div>
     </header>
 
@@ -87,15 +87,15 @@
         <div class="stat-label">Minutes Focused</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value" id="statStreak">0</div>
-        <div class="stat-label">Day Streak</div>
+        <div class="stat-value" id="statTasksDone">0</div>
+        <div class="stat-label">Tasks Done</div>
       </div>
     </div>
 
     <!-- Tasks Panel -->
     <div class="tasks-panel">
       <div class="tasks-header">
-        <div class="tasks-title">[Name]'s Policy Agenda</div>
+        <div class="tasks-title">Monica's Policy Agenda</div>
         <div class="tasks-subtitle">⚜ Today's Legislative Session</div>
       </div>
       <div class="tasks-body">
@@ -104,7 +104,7 @@
             class="task-input"
             id="taskInput"
             type="text"
-            placeholder="Add a study task, [Name]…"
+            placeholder="Add a study task, Monica…"
             onkeydown="if(event.key==='Enter') addTask()"
           >
           <button class="btn-add" onclick="addTask()">+</button>
@@ -115,9 +115,9 @@
 
     <!-- Footer -->
     <footer class="app-footer">
-      <span>Crafted exclusively for <em>[Name]</em></span>
+      <span>Crafted exclusively for <em>Monica</em></span>
       <span class="footer-divider">⚜</span>
-      <span>Political Science Scholar</span>
+      <span>Developed by Alexius Seth</span>
     </footer>
 
   </div>

@@ -1,40 +1,36 @@
 /* ============================================================
-   THE DIPLOMAT'S POMODORO — style-oxford.css
-   Theme: Oxford Green — Academic Prestige
-   Primary: Oxford Green (#2d5a3d) · Gold: (#b8962e) · Parchment: (#f5f0e8)
-   Font: Lora (Google Fonts) — warm, literary serif
+   THE DIPLOMAT'S POMODORO — style-pink.css
+   Theme: Rose Pink
+   Primary: Deep Rose (#e8749a) · Light: (#fce4ee) · Blush: (#f4a7c0)
+   Accent: Antique Gold (#c9a84c) · Background: Warm Cream (#fdf6f0)
    ============================================================ */
-
-/* ── Google Fonts ─────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:wght@400;700&display=swap');
 
 /* ── CSS Variables ────────────────────────────────────────── */
 :root {
-  /* Oxford Green palette */
-  --primary:        #2d5a3d;   /* Oxford green — main accent */
-  --primary-light:  #e8f0eb;   /* pale sage — backgrounds, hovers */
-  --primary-mid:    #6a9c78;   /* mid green — borders, rings */
-  --primary-deep:   #1a3d28;   /* dark forest — pressed states */
+  /* Core pink palette */
+  --primary:        #e991b0;   /* soft rose — gentle, not harsh */   /* deep rose — main accent */
+  --primary-light:  #fdeef4;   /* near-white blush — very easy on eyes */   /* blush — backgrounds, hovers */
+  --primary-mid:    #f8c8d8;   /* light petal — borders */   /* mid pink — borders, subtle tones */
+  --primary-deep:   #d4708f;   /* muted rose — pressed states */   /* dark rose — pressed states */
 
-  /* Secondary (warm amber/gold for breaks — like illuminated manuscript) */
-  --secondary:      #b8962e;   /* antique gold */
-  --secondary-light:#faf3dc;   /* parchment yellow */
-  --secondary-deep: #8a6e1e;   /* dark gold */
+  /* Secondary (soft mauve for break states) */
+  --secondary:      #ddb8cc;
+  --secondary-light:#faf0f5;
+  --secondary-deep: #c090a8;
 
-  /* Parchment & neutrals */
-  --cream:          #f5f0e8;   /* aged parchment */
-  --parchment-dark: #ede5d0;   /* darker parchment — subtle borders */
-  --gold:           #b8962e;   /* antique gold */
-  --gold-light:     #faf3dc;
-  --ink:            #1c2b1f;   /* near-black green ink */
-  --ink-light:      #4a5e4f;   /* muted green-grey */
-  --white:          #fdfcf8;   /* warm white, not stark */
+  /* Neutrals */
+  --cream:          #fef9fb;   /* petal white */
+  --gold:           #c4a882;   /* warm taupe */
+  --gold-light:     #f5ede0;
+  --ink:            #3d2530;   /* softer dark */
+  --ink-light:      #8a6575;   /* muted mauve-grey */
+  --white:          #ffffff;
 
   /* Shadows */
-  --shadow-primary:   rgba(45, 90, 61, 0.22);
-  --shadow-secondary: rgba(184, 150, 46, 0.20);
+  --shadow-primary:   rgba(233, 145, 176, 0.18);
+  --shadow-secondary: rgba(192, 144, 168, 0.15);
 
-  --radius:         3px;
+  --radius:         4px;
   --transition:     0.3s ease;
 }
 
@@ -46,7 +42,7 @@
 }
 
 body {
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Cormorant Garamond', serif;
   background: var(--cream);
   color: var(--ink);
   min-height: 100vh;
@@ -54,21 +50,14 @@ body {
   position: relative;
 }
 
-/* Subtle parchment texture via layered gradients */
+/* Subtle pink radial glow on background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 55% at 10% 10%, rgba(45,90,61,0.07) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(184,150,46,0.08) 0%, transparent 65%),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 40px,
-      rgba(45,90,61,0.015) 40px,
-      rgba(45,90,61,0.015) 41px
-    );
+    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(248,200,216,0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(233,145,176,0.08) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -77,8 +66,8 @@ body::before {
 .welcome-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 28, 18, 0.80);
-  backdrop-filter: blur(7px);
+  background: rgba(55, 30, 42, 0.68);
+  backdrop-filter: blur(6px);
   z-index: 500;
   display: flex;
   align-items: center;
@@ -98,34 +87,21 @@ body::before {
   border-radius: var(--radius);
   padding: 52px 48px;
   text-align: center;
-  max-width: 440px;
+  max-width: 420px;
   width: 90%;
-  box-shadow:
-    0 0 0 6px rgba(45,90,61,0.06),
-    0 24px 80px rgba(15,28,18,0.30);
+  box-shadow: 0 24px 80px rgba(233,145,176,0.14), 0 4px 20px rgba(0,0,0,0.15);
   animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-}
-
-/* Decorative inner border on card */
-.welcome-card::before {
-  content: '';
-  position: absolute;
-  inset: 8px;
-  border: 1px solid var(--parchment-dark);
-  border-radius: 2px;
-  pointer-events: none;
 }
 
 .welcome-seal {
-  font-size: 30px;
+  font-size: 32px;
   color: var(--primary);
   margin-bottom: 16px;
   display: block;
 }
 
 .welcome-title {
-  font-family: 'Lora', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 30px;
   font-weight: 700;
   color: var(--ink);
@@ -141,23 +117,21 @@ body::before {
 .welcome-sub {
   font-size: 15px;
   color: var(--ink-light);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   margin-bottom: 20px;
-  font-style: italic;
 }
 
 .welcome-quote {
-  font-size: 13.5px;
+  font-size: 13px;
   font-style: italic;
   color: var(--ink-light);
   border-left: 3px solid var(--primary);
   text-align: left;
-  padding: 10px 16px;
+  padding: 10px 14px;
   background: var(--primary-light);
   border-radius: 2px;
-  line-height: 1.7;
+  line-height: 1.6;
   margin-bottom: 28px;
-  font-family: 'Lora', serif;
 }
 
 .welcome-btn {
@@ -183,17 +157,16 @@ header {
 
 .header-seal {
   font-size: 11px;
-  letter-spacing: 0.38em;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: var(--secondary);
-  font-family: 'Lora', serif;
-  font-weight: 400;
+  color: var(--primary);
+  font-family: 'EB Garamond', serif;
   margin-bottom: 10px;
 }
 
 h1 {
-  font-family: 'Lora', serif;
-  font-size: clamp(28px, 5vw, 46px);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 44px);
   font-weight: 700;
   color: var(--ink);
   line-height: 1.1;
@@ -210,8 +183,7 @@ h1 em {
   color: var(--ink-light);
   font-style: italic;
   margin-top: 8px;
-  letter-spacing: 0.03em;
-  font-family: 'Lora', serif;
+  letter-spacing: 0.05em;
 }
 
 .divider {
@@ -229,11 +201,11 @@ h1 em {
   height: 1px;
 }
 
-.divider::before { background: linear-gradient(to right, transparent, var(--secondary)); }
-.divider::after  { background: linear-gradient(to left, transparent, var(--secondary)); }
+.divider::before { background: linear-gradient(to right, transparent, var(--primary-mid)); }
+.divider::after  { background: linear-gradient(to left, transparent, var(--primary-mid)); }
 
 .divider-icon {
-  color: var(--secondary);
+  color: var(--primary);
   font-size: 14px;
 }
 
@@ -247,11 +219,11 @@ h1 em {
 }
 
 .mode-tab {
-  font-family: 'Lora', serif;
-  font-size: 11.5px;
-  letter-spacing: 0.18em;
+  font-family: 'EB Garamond', serif;
+  font-size: 12px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  padding: 9px 22px;
+  padding: 8px 20px;
   border: 1.5px solid var(--primary-mid);
   background: transparent;
   color: var(--ink-light);
@@ -263,7 +235,6 @@ h1 em {
 .mode-tab:hover {
   background: var(--primary-light);
   color: var(--ink);
-  border-color: var(--primary);
 }
 
 .mode-tab.active[data-mode="work"] {
@@ -273,67 +244,51 @@ h1 em {
 }
 
 .mode-tab.active[data-mode="short"] {
-  background: var(--secondary);
-  border-color: var(--secondary);
+  background: var(--secondary-deep);
+  border-color: var(--secondary-deep);
   color: var(--white);
 }
 
 .mode-tab.active[data-mode="long"] {
-  background: var(--secondary-deep);
-  border-color: var(--secondary-deep);
+  background: var(--secondary);
+  border-color: var(--secondary);
   color: var(--white);
 }
 
 /* ── Timer Card ───────────────────────────────────────────── */
 .timer-card {
   background: var(--white);
-  border: 1.5px solid var(--parchment-dark);
+  border: 1.5px solid var(--primary-mid);
   border-radius: var(--radius);
   padding: 16px 32px 36px;
   text-align: center;
-  box-shadow:
-    0 4px 40px var(--shadow-primary),
-    inset 0 0 80px rgba(232,240,235,0.5);
+  box-shadow: 0 4px 40px var(--shadow-primary), inset 0 0 60px rgba(252,228,238,0.4);
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.5s ease;
 }
 
-/* Top accent bar */
 .timer-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 4px;
-  background: linear-gradient(to right, var(--primary-deep), var(--primary), var(--primary-mid));
+  background: linear-gradient(to right, var(--primary), var(--primary-mid), var(--primary-deep));
   transition: all 0.5s ease;
 }
 
 .timer-card.break::before {
-  background: linear-gradient(to right, var(--secondary-deep), var(--secondary));
-}
-
-/* Subtle inner frame */
-.timer-card::after {
-  content: '';
-  position: absolute;
-  inset: 12px;
-  border: 1px solid var(--parchment-dark);
-  border-radius: 2px;
-  pointer-events: none;
-  opacity: 0.6;
+  background: linear-gradient(to right, var(--secondary), var(--secondary-deep));
 }
 
 .card-seal-top {
-  font-family: 'Lora', serif;
+  font-family: 'EB Garamond', serif;
   font-size: 11px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--secondary);
+  color: var(--primary);
   margin-bottom: 16px;
   transition: all 0.4s ease;
-  position: relative;
-  z-index: 1;
 }
 
 /* ── SVG Ring ─────────────────────────────────────────────── */
@@ -342,7 +297,6 @@ h1 em {
   width: 240px;
   height: 240px;
   margin: 0 auto 24px;
-  z-index: 1;
 }
 
 .ring-svg {
@@ -368,7 +322,7 @@ h1 em {
 }
 
 .ring-prog.break {
-  stroke: var(--secondary);
+  stroke: var(--secondary-deep);
 }
 
 .timer-center {
@@ -377,13 +331,13 @@ h1 em {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  width: 170px;
+  width: 160px;
 }
 
 .timer-display {
-  font-family: 'Lora', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 58px;
-  font-weight: 700;
+  font-weight: 400;
   color: var(--ink);
   line-height: 1;
   letter-spacing: -2px;
@@ -391,16 +345,16 @@ h1 em {
 
 .timer-mode-label {
   font-size: 11px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--primary);
-  font-family: 'Lora', serif;
-  margin-top: 6px;
+  font-family: 'EB Garamond', serif;
+  margin-top: 4px;
   transition: color 0.5s ease;
 }
 
 .timer-mode-label.break {
-  color: var(--secondary);
+  color: var(--secondary-deep);
 }
 
 /* ── Session Dots ─────────────────────────────────────────── */
@@ -409,8 +363,6 @@ h1 em {
   justify-content: center;
   gap: 10px;
   margin-bottom: 28px;
-  position: relative;
-  z-index: 1;
 }
 
 .dot {
@@ -429,9 +381,9 @@ h1 em {
 
 /* ── Buttons ──────────────────────────────────────────────── */
 .btn {
-  font-family: 'Lora', serif;
-  font-size: 12.5px;
-  letter-spacing: 0.16em;
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
   border: none;
@@ -443,7 +395,7 @@ h1 em {
   background: linear-gradient(135deg, var(--primary), var(--primary-deep));
   color: var(--white);
   padding: 14px 44px;
-  font-size: 13px;
+  font-size: 14px;
   box-shadow: 0 4px 20px var(--shadow-primary);
 }
 
@@ -458,13 +410,12 @@ h1 em {
   background: transparent;
   color: var(--ink-light);
   padding: 12px 20px;
-  border: 1px solid var(--parchment-dark);
+  border: 1px solid var(--primary-mid);
 }
 
 .btn-secondary:hover {
   background: var(--primary-light);
   color: var(--ink);
-  border-color: var(--primary-mid);
 }
 
 /* ── Controls Row ─────────────────────────────────────────── */
@@ -474,40 +425,34 @@ h1 em {
   justify-content: center;
   align-items: center;
   margin-bottom: 24px;
-  position: relative;
-  z-index: 1;
 }
 
 /* ── Quote Section ────────────────────────────────────────── */
 .quote-section {
-  border-top: 1px solid var(--parchment-dark);
+  border-top: 1px solid var(--primary-light);
   padding-top: 20px;
   margin-top: 4px;
   min-height: 72px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  position: relative;
-  z-index: 1;
 }
 
 .quote-text {
   font-size: 14px;
   font-style: italic;
   color: var(--ink-light);
-  line-height: 1.75;
+  line-height: 1.7;
   transition: opacity 0.5s ease;
-  font-family: 'Lora', serif;
 }
 
 .quote-author {
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--secondary);
-  margin-top: 8px;
-  font-family: 'Lora', serif;
-  font-weight: 600;
+  color: var(--primary);
+  margin-top: 6px;
+  font-family: 'EB Garamond', serif;
 }
 
 /* ── Stats Row ────────────────────────────────────────────── */
@@ -520,24 +465,11 @@ h1 em {
 
 .stat-card {
   background: var(--white);
-  border: 1px solid var(--parchment-dark);
+  border: 1px solid var(--primary-mid);
   border-radius: var(--radius);
   padding: 18px 14px;
   text-align: center;
   transition: transform var(--transition), box-shadow var(--transition);
-  position: relative;
-}
-
-/* Top micro-bar on stat cards */
-.stat-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 20%; right: 20%;
-  height: 2px;
-  background: var(--primary-mid);
-  border-radius: 0 0 2px 2px;
-  opacity: 0;
-  transition: opacity var(--transition);
 }
 
 .stat-card:hover {
@@ -545,10 +477,8 @@ h1 em {
   box-shadow: 0 6px 20px var(--shadow-primary);
 }
 
-.stat-card:hover::before { opacity: 1; }
-
 .stat-value {
-  font-family: 'Lora', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 32px;
   font-weight: 700;
   color: var(--primary);
@@ -561,14 +491,14 @@ h1 em {
   text-transform: uppercase;
   color: var(--ink-light);
   margin-top: 6px;
-  font-family: 'Lora', serif;
+  font-family: 'EB Garamond', serif;
 }
 
 /* ── Tasks Panel ──────────────────────────────────────────── */
 .tasks-panel {
   margin-top: 24px;
   background: var(--white);
-  border: 1.5px solid var(--parchment-dark);
+  border: 1.5px solid var(--primary-mid);
   border-radius: var(--radius);
   overflow: hidden;
 }
@@ -581,11 +511,10 @@ h1 em {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
-  border-bottom: 1px solid var(--parchment-dark);
 }
 
 .tasks-title {
-  font-family: 'Lora', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 16px;
   font-weight: 700;
   color: var(--ink);
@@ -595,8 +524,8 @@ h1 em {
   font-size: 11px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--secondary);
-  font-family: 'Lora', serif;
+  color: var(--primary);
+  font-family: 'EB Garamond', serif;
 }
 
 .tasks-body { padding: 16px 20px 20px; }
@@ -609,10 +538,10 @@ h1 em {
 
 .task-input {
   flex: 1;
-  font-family: 'Lora', serif;
-  font-size: 14.5px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
   padding: 10px 14px;
-  border: 1px solid var(--parchment-dark);
+  border: 1px solid var(--primary-mid);
   border-radius: var(--radius);
   background: var(--cream);
   color: var(--ink);
@@ -630,7 +559,7 @@ h1 em {
   background: var(--primary);
   color: var(--white);
   padding: 10px 18px;
-  font-family: 'Lora', serif;
+  font-family: 'EB Garamond', serif;
   font-size: 20px;
   border: none;
   border-radius: var(--radius);
@@ -640,7 +569,7 @@ h1 em {
 }
 
 .btn-add:hover {
-  background: var(--primary-deep);
+  background: var(--primary-mid);
   transform: scale(1.05);
 }
 
@@ -657,7 +586,6 @@ h1 em {
   font-style: italic;
   font-size: 14px;
   padding: 10px 0;
-  font-family: 'Lora', serif;
 }
 
 .task-item {
@@ -667,19 +595,15 @@ h1 em {
   padding: 10px 12px;
   border-radius: var(--radius);
   background: var(--cream);
-  border-left: 2px solid transparent;
   transition: all 0.2s;
 }
 
-.task-item:hover {
-  background: var(--primary-light);
-  border-left-color: var(--primary-mid);
-}
+.task-item:hover { background: var(--primary-light); }
 
 .task-check {
   width: 18px;
   height: 18px;
-  border-radius: 3px;   /* square-ish — like a formal checkbox */
+  border-radius: 50%;
   border: 1.5px solid var(--primary-mid);
   cursor: pointer;
   flex-shrink: 0;
@@ -703,9 +627,8 @@ h1 em {
 
 .task-text {
   flex: 1;
-  font-size: 14.5px;
+  font-size: 15px;
   color: var(--ink);
-  font-family: 'Lora', serif;
   transition: all 0.2s;
 }
 
@@ -733,8 +656,8 @@ h1 em {
   margin-top: 40px;
   font-size: 12px;
   color: var(--ink-light);
-  font-family: 'Lora', serif;
-  letter-spacing: 0.12em;
+  font-family: 'EB Garamond', serif;
+  letter-spacing: 0.15em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -746,10 +669,7 @@ h1 em {
   color: var(--primary);
 }
 
-.footer-divider {
-  font-size: 14px;
-  color: var(--secondary);
-}
+.footer-divider { font-size: 14px; color: var(--primary-mid); }
 
 /* ── Notification Toast ───────────────────────────────────── */
 .notification {
@@ -761,7 +681,7 @@ h1 em {
   color: var(--white);
   padding: 14px 32px;
   border-radius: 40px;
-  font-family: 'Lora', serif;
+  font-family: 'Playfair Display', serif;
   font-size: 15px;
   box-shadow: 0 8px 32px var(--shadow-primary);
   z-index: 200;
@@ -783,13 +703,13 @@ h1 em {
 }
 
 @keyframes pulseWork {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(45,90,61,0.4)); }
-  50%       { filter: drop-shadow(0 0 16px rgba(45,90,61,0.7)); }
+  0%, 100% { filter: drop-shadow(0 0 4px var(--primary-mid)); }
+  50%       { filter: drop-shadow(0 0 16px var(--primary)); }
 }
 
 @keyframes pulseBreak {
-  0%, 100% { filter: drop-shadow(0 0 4px rgba(184,150,46,0.4)); }
-  50%       { filter: drop-shadow(0 0 16px rgba(184,150,46,0.7)); }
+  0%, 100% { filter: drop-shadow(0 0 4px var(--secondary)); }
+  50%       { filter: drop-shadow(0 0 16px var(--secondary-deep)); }
 }
 
 .ring-svg.ticking            { animation: pulseWork  2s ease-in-out infinite; }

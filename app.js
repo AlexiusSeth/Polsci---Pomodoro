@@ -6,21 +6,19 @@
      dp_sessions_today   — work sessions completed today (number)
      dp_minutes_total    — total focused minutes all time (number)
      dp_last_study_date  — last date a session was completed (YYYY-MM-DD)
-     dp_streak           — current day streak (number)
      dp_tasks            — task list (JSON array)
    ============================================================ */
 
 'use strict';
 
 /* ── Personalization ──────────────────────────────────────── */
-const NAME = '[Name]';
+const NAME = 'Monica';
 
 /* ── Storage Keys ─────────────────────────────────────────── */
 const KEYS = {
   sessionsToday : 'dp_sessions_today',
   minutesTotal  : 'dp_minutes_total',
   lastStudyDate : 'dp_last_study_date',
-  streak        : 'dp_streak',
   tasks         : 'dp_tasks',
 };
 
@@ -69,12 +67,6 @@ function todayStr() {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
-function yesterdayStr() {
-  const d = new Date();
-  d.setDate(d.getDate() - 1);
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-
 function lsGet(key, fallback = null) {
   try {
     const val = localStorage.getItem(key);
@@ -88,40 +80,23 @@ function lsSet(key, value) {
 
 /* ── Load persisted state ─────────────────────────────────── */
 function loadState() {
-  const today     = todayStr();
-  const yesterday = yesterdayStr();
-  const lastDate  = lsGet(KEYS.lastStudyDate, null);
+  const today    = todayStr();
+  const lastDate = lsGet(KEYS.lastStudyDate, null);
 
-  // Sessions today — reset to 0 if it's a new calendar day
+  // Sessions today — reset if it's a new calendar day
   sessionsToday = (lastDate === today) ? lsGet(KEYS.sessionsToday, 0) : 0;
 
   // Total minutes — cumulative all-time, never resets
   minutesTotal = lsGet(KEYS.minutesTotal, 0);
 
-  // Streak:
-  //   last date = today      → already studied today, keep streak
-  //   last date = yesterday  → keep streak (will grow on next session)
-  //   last date = 2+ days ago → streak broken, reset to 0
-  //   never studied          → 0
-  const savedStreak = lsGet(KEYS.streak, 0);
-  if (!lastDate) {
-    streak = 0;
-  } else if (lastDate === today || lastDate === yesterday) {
-    streak = savedStreak;
-  } else {
-    streak = 0;
-    lsSet(KEYS.streak, 0);
-  }
-
+  // Tasks — restored as-is (user clears manually)
   tasks = lsGet(KEYS.tasks, []);
 }
 
-/* ── Persist after every completed work session ───────────── */
 function saveState() {
   lsSet(KEYS.sessionsToday, sessionsToday);
   lsSet(KEYS.minutesTotal,  minutesTotal);
   lsSet(KEYS.lastStudyDate, todayStr());
-  lsSet(KEYS.streak,        streak);
 }
 
 function saveTasks() {
@@ -138,13 +113,17 @@ let totalTime        = MODES.work.duration;
 let isRunning        = false;
 let intervalId       = null;
 let usedQuoteIndices = [];
-let sessionsCycle    = 0; // resets every 4 sessions (for long-break logic)
+let sessionsCycle    = 0;
 
-// Persisted — loaded from localStorage
+// Persisted
 let sessionsToday = 0;
 let minutesTotal  = 0;
-let streak        = 0;
 let tasks         = [];
+
+/* ── Derived stat: tasks done today (computed from tasks array) */
+function tasksDoneCount() {
+  return tasks.filter(t => t.done).length;
+}
 
 /* ── DOM References ───────────────────────────────────────── */
 const $ = id => document.getElementById(id);
@@ -162,7 +141,7 @@ const els = {
   notification:   $('notification'),
   statSessions:   $('statSessions'),
   statMinutes:    $('statMinutes'),
-  statStreak:     $('statStreak'),
+  statTasksDone:  $('statTasksDone'),
   taskInput:      $('taskInput'),
   taskList:       $('taskList'),
   welcomeOverlay: $('welcomeOverlay'),
@@ -252,37 +231,16 @@ function onSessionComplete() {
   playChime();
 
   if (!MODES[currentMode].isBreak) {
-    // ── Work session finished ────────────────────────────
     sessionsToday++;
     sessionsCycle++;
     minutesTotal += 25;
-
-    // Streak calculation
-    const today     = todayStr();
-    const yesterday = yesterdayStr();
-    const lastDate  = lsGet(KEYS.lastStudyDate, null);
-
-    if (!lastDate || lastDate === today) {
-      // First session ever, or already studied today — ensure streak is at least 1
-      if (streak === 0) streak = 1;
-    } else if (lastDate === yesterday) {
-      // Studied yesterday — extend streak
-      streak++;
-    } else {
-      // Missed one or more days — restart
-      streak = 1;
-    }
-
     saveState();
     updateStats();
     renderDots();
     showNotification(`✦ Well done, ${NAME}! Session complete.`);
-
     const nextMode = (sessionsCycle % 4 === 0) ? 'long' : 'short';
     setTimeout(() => setMode(nextMode), 900);
-
   } else {
-    // ── Break finished ───────────────────────────────────
     showNotification(`⚜ Recess over, ${NAME} — time to focus!`);
     setTimeout(() => setMode('work'), 900);
   }
@@ -305,9 +263,9 @@ function renderDots() {
 }
 
 function updateStats() {
-  els.statSessions.textContent = sessionsToday;
-  els.statMinutes.textContent  = minutesTotal;
-  els.statStreak.textContent   = streak;
+  els.statSessions.textContent  = sessionsToday;
+  els.statMinutes.textContent   = minutesTotal;
+  els.statTasksDone.textContent = tasksDoneCount();
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -370,17 +328,24 @@ function addTask() {
   input.focus();
   saveTasks();
   renderTasks();
+  updateStats(); // tasks done count may change
 }
 
 function toggleTask(id) {
   const task = tasks.find(t => t.id === id);
-  if (task) { task.done = !task.done; saveTasks(); renderTasks(); }
+  if (task) {
+    task.done = !task.done;
+    saveTasks();
+    renderTasks();
+    updateStats(); // update tasks done count live
+  }
 }
 
 function deleteTask(id) {
   tasks = tasks.filter(t => t.id !== id);
   saveTasks();
   renderTasks();
+  updateStats();
 }
 
 function renderTasks() {
@@ -431,8 +396,8 @@ function init() {
   updateStats();
   console.log(
     `%c⚜ Diplomat's Pomodoro loaded for ${NAME}\n` +
-    `   Today: ${sessionsToday} sessions | Total: ${minutesTotal} min | Streak: ${streak} day(s)`,
-    'color:#2d5a3d;font-family:serif;font-size:13px;'
+    `   Today: ${sessionsToday} sessions | Total: ${minutesTotal} min | Tasks done: ${tasksDoneCount()}`,
+    'color:#e991b0;font-family:serif;font-size:13px;'
   );
 }
 
