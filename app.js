@@ -172,7 +172,7 @@ function setMode(mode) {
   totalTime   = MODES[mode].duration;
   const isBreak = MODES[mode].isBreak;
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
-  // no color change on break — stays pink
+
   els.modeLabel.textContent   = MODES[mode].label;
   els.cardSealTop.textContent = MODES[mode].seal;
   updateDisplay();
@@ -186,7 +186,7 @@ function startTimer() {
   isRunning = true;
   els.startBtn.textContent = 'Pause';
   els.ringSvg.classList.add('ticking');
-  // color stays pink regardless of mode
+
   intervalId = setInterval(tick, 1000);
 }
 
